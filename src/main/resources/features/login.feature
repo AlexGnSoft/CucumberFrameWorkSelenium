@@ -1,5 +1,5 @@
 @SmokeFeature
-Feature: Login
+Feature: Send emails
 
   @smoke
   Scenario Outline: Check login is successful with valid credentials
