@@ -13,8 +13,7 @@ import org.openqa.selenium.support.PageFactory;
 import utils.RandomDataGenerator;
 import java.util.*;
 
-public class HomePage {
-    public WebDriver driver;
+public class HomePage extends Global{
     private static final Logger log = LogManager.getLogger(HomePage.class.getName());
 
     public HomePage(WebDriver driver) {
@@ -58,6 +57,21 @@ public class HomePage {
     @FindBy(xpath = " //span[text()='No messages in the folder']")
     WebElement noMessageInFolder;
 
+    @FindBy(xpath = "//div[@data-name='to']//input[@class='container--H9L5q size_s--3_M-_']")
+    WebElement to;
+
+    @FindBy(xpath = "//input[@name='Subject']")
+    WebElement subject;
+
+    @FindBy(xpath = "//div[@role='textbox']/div[1]")
+    WebElement emailBodyField;
+
+    @FindBy(xpath = "//button[@data-test-id='send']")
+    WebElement sendBtn;
+
+    @FindBy(xpath = "//span[@tabindex='1000']")
+    WebElement closeBtn;
+
     /**
      * Method is used to verify that home page is fully displayed.
      */
@@ -76,27 +90,22 @@ public class HomePage {
 
         //Click on sent new email button
         sentNewEmailBtn.click();
-        wait(2000);
 
         //Enter email
-        WebElement to = driver.findElement(By.xpath("//div[@data-name='to']//input[@class='container--H9L5q size_s--3_M-_']"));
+        explicitlyWait(to);
         to.sendKeys(Constants.CredentialsVariables.email);
 
         //Enter theme
-        WebElement subject = driver.findElement(By.xpath("//input[@name='Subject']"));
         subject.sendKeys(dataGenerator.randomString(strLength));
 
         //Enter body of the email
-        WebElement emailBodyField = driver.findElement(By.xpath("//div[@role='textbox']/div[1]"));
         emailBodyField.sendKeys(dataGenerator.randomString(strLength));
 
         //Click on Send button
-        WebElement sendBtn = driver.findElement(By.xpath("//button[@data-test-id='send']"));
         sendBtn.click();
-        wait(1000);
 
         //Click on close button
-        WebElement closeBtn = driver.findElement(By.xpath("//span[@tabindex='1000']"));
+        explicitlyWait(closeBtn);
         closeBtn.click();
         log.log(Level.INFO, "fillInToSubjectsBodyFieldsAndClickSend method");
     }
@@ -124,7 +133,7 @@ public class HomePage {
     public void sentMailCounterTest() {
         String sentMailText = sentMailCounter.getText();
         String newMailText = newMailCounter.getText();
-        wait(2000);
+//        wait(3000);
         Assert.isTrue(sentMailText.equals(newMailText), "Number of sent and received emails isn't equal");
         log.log(Level.INFO, "sentMailCounterTest method");
     }
@@ -134,6 +143,7 @@ public class HomePage {
      */
     public Map<String, String> saveEmailsData() {
         //Preconditions: click on sent message button, to see a list of sent emails
+        explicitlyWait(sentMessagesBtn);
         sentMessagesBtn.click();
 
         //Save theme and body to Map
@@ -162,27 +172,23 @@ public class HomePage {
 
             //Click on sent new email button
             sentNewEmailBtn.click();
-            wait(2000);
 
             //Enter email
-            WebElement to = driver.findElement(By.xpath("//div[@data-name='to']//input[@class='container--H9L5q size_s--3_M-_']"));
+            explicitlyWait(to);
             to.sendKeys(Constants.CredentialsVariables.email);
 
             //Enter customized theme
-            WebElement subject = driver.findElement(By.xpath("//input[@name='Subject']"));
             subject.sendKeys("Received mail on theme " + theme);
 
             //Enter customized body
-            WebElement emailBodyField = driver.findElement(By.xpath("//div[@role='textbox']/div[1]"));
             emailBodyField.sendKeys(body + ". It contains "+ countLettersInString(body) + " letters and " + countDigitsInString(body) + " numbers.");
 
             //Click on Send button
             WebElement sendBtn = driver.findElement(By.xpath("//button[@data-test-id='send']"));
             sendBtn.click();
-            wait(1000);
 
             //Click on close button
-            WebElement closeBtn = driver.findElement(By.xpath("//span[@tabindex='1000']"));
+            explicitlyWait(closeBtn);
             closeBtn.click();
         }
         //Click on sent email button to start a loop

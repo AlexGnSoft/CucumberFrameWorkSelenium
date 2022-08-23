@@ -1,6 +1,5 @@
 package pageObjects;
 
-
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -9,8 +8,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-public class LoginPage {
-    public WebDriver driver;
+public class LoginPage extends Global{
     private static final Logger log = LogManager.getLogger(LoginPage.class.getName());
 
     public LoginPage(WebDriver driver) {
@@ -66,7 +64,7 @@ public class LoginPage {
      * Method is used to enter email
      */
     public void enterUserEmail(String userEmail){
-        HomePage.wait(3000);
+        explicitlyWait(signInIFrame);
         driver.switchTo().frame(signInIFrame);  //switch to iframe to enter user credentials
         userNameField.clear();
         userNameField.sendKeys(userEmail);

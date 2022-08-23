@@ -1,8 +1,8 @@
 @SmokeFeature
-Feature: Login
+Feature: Send emails
 
   @smoke
-  Scenario Outline: Check login is successful with valid credentials
+  Scenario Outline: Check sending emails and data collection
 
     Given User is on mail.ru landing page
     Then User clicks on enter to start login button
